@@ -25,7 +25,7 @@ The file must be a text `prod.keys` dump and contain at least
 `master_key_12` (each 32 hex characters).
 
 If you do not have `prod.keys`, skip the Lobby path: use the Switch 1 NRO from
-the original kit to install `XSTRIG.Civ7Save`, then use `run-fs.py --no-lobby`.
+the original kit to install `XSTRIG.Civ7Save`, then use `IZCIVSwitch.py --no-lobby`.
 
 ## 3. Restore capabilities
 
@@ -50,7 +50,7 @@ On S2: Civ7 → `MULTIPLAYER > WIRELESS > CREATE GAME > HOST LOBBY`.
 On the PC:
 
 ```bash
-python3 run-fs.py --lobby --yes
+python3 IZCIVSwitch.py --lobby --yes
 ```
 
 Success: `4/4 verified` and `FS ENDPOINT IS LIVE`.

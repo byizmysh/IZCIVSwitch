@@ -19,7 +19,7 @@ Acquisition succeeded on attempt 2 after ~669 s.
 
 ## Included
 
-- `run-fs.py` — Lobby injection → loader → engine → bridge → held RPC,
+- `IZCIVSwitch.py` — Lobby injection → loader → engine → bridge → held RPC,
   with live logs, stall detection, `RUN SUMMARY` and `--inspect`.
 - `pc-install-trigger.py` — PC-side replacement for Switch 1 +
   `civswitch-ldn-nx.nro`; writes `XSTRIG.Civ7Save` through the original
@@ -34,8 +34,8 @@ Acquisition succeeded on attempt 2 after ~669 s.
 
 | Asset | Notes |
 |---|---|
-| `civswitch-fs-kit-0.1.0-linux-x86_64.tar.gz` | Full package; Linux x86_64 + Python 3.14 Lobby runtime |
-| `civswitch-fs-kit-0.1.0-source.zip` | Scripts + kit + launcher; no Lobby runtime |
+| `IZCIVSwitch-0.1.0-linux-x86_64.tar.gz` | Full package; Linux x86_64 + Python 3.14 Lobby runtime |
+| `IZCIVSwitch-0.1.0-source.zip` | Scripts + kit + launcher; no Lobby runtime |
 
 ## Known limitations
 

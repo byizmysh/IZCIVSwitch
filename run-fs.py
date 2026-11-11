@@ -570,6 +570,7 @@ def print_summary(run_folder: str | None) -> None:
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
+        prog="IZCIVSwitch.py",
         description="Load the CivSwitch bridge from the Civ7 Lobby and hold the Stage 2 FS RPC session.",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=(

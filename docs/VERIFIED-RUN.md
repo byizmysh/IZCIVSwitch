@@ -13,7 +13,7 @@ the original `civswitch-kit` engine and bridge.
 | Console | 10.42.0.20 |
 | Node.js | 22.x |
 | Python | 3.14 |
-| Command | `python3 run-fs.py --lobby --yes` |
+| Command | `python3 IZCIVSwitch.py --lobby --yes` |
 | Run folder | `kit/port/engine/runs/switch2-nTDhp6` |
 | Acquisition | attempt 2, ~669 s |
 | Runtime cap | `--max-runtime 720` (the repository default is 900) |

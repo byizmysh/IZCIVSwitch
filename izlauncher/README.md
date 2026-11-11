@@ -49,7 +49,7 @@ izlauncher/
 поднимается обычный loader. Дальше ПК работает штатно:
 
 ```bash
-python3 ../run-fs.py --no-lobby        # bridge + run.cjs --rpc
+python3 ../IZCIVSwitch.py --no-lobby        # bridge + run.cjs --rpc
 ```
 
 ## Порядок работы
@@ -125,7 +125,7 @@ python install.py --ip <S2-IP> --restore receipts/<uuid>/receipt.json
 ## Ограничения
 
 - `install.py` требует уже поднятый Remote JS Loader. Поднять его из Lobby
-  можно соседним `../run-fs.py --lobby --inject-only`; после установки 0.27
+  можно соседним `../IZCIVSwitch.py --lobby --inject-only`; после установки 0.27
   loader также запускается из меню двойным R3.
 - `Commit("save")` выполняется после каждой публикации; если прервать процесс
   между staging и публикацией, на консоли останется staged-файл. Скрипт при

@@ -1,4 +1,4 @@
-# CivSwitch FS Kit — IZlauncher Edition
+# IZCIVSwitch — IZlauncher Edition
 
 **A PC-side launcher for the CivSwitch / ns2jb Stage 2 FS session on Nintendo Switch 2.** Inject the loader through the Civilization VII multiplayer lobby, run the original `civswitch-kit` engine and bridge, and keep the retained FS RPC endpoint alive while the process is open. Includes the optional **IZlauncher 0.27** menu with an embedded loader.
 
@@ -33,14 +33,14 @@ See [`docs/VERIFIED-RUN.md`](docs/VERIFIED-RUN.md).
 
 | Package | Use |
 |---|---|
-| `civswitch-fs-kit-0.1.0-linux-x86_64.tar.gz` | Full package: kit + PC Lobby runtime + launcher; Linux x86_64 |
-| `civswitch-fs-kit-0.1.0-source.zip` | Scripts + kit + launcher, no Lobby runtime; use with an existing `iz2s-panel` or the Switch 1 NRO |
+| `IZCIVSwitch-0.1.0-linux-x86_64.tar.gz` | Full package: kit + PC Lobby runtime + launcher; Linux x86_64 |
+| `IZCIVSwitch-0.1.0-source.zip` | Scripts + kit + launcher, no Lobby runtime; use with an existing `iz2s-panel` or the Switch 1 NRO |
 
 Extract the **entire** archive to a writable folder. Do not run from inside the archive.
 
 ```text
-civswitch-fs-kit-0.1.0/
-├── run-fs.py
+IZCIVSwitch-0.1.0/
+├── IZCIVSwitch.py
 ├── pc-install-trigger.py
 ├── kit/                         # original civswitch-kit
 ├── panel/                       # PC-side CivSwitchLDN (full archive only)
@@ -55,7 +55,7 @@ civswitch-fs-kit-0.1.0/
 
 ### 2. Provide `prod.keys`
 
-`prod.keys` is **required only for the PC-side Lobby injection** (`run-fs.py --lobby` and `pc-install-trigger.py`). It is **not needed** for `run-fs.py --no-lobby` / XSTRIG, and it is **not included** in the release.
+`prod.keys` is **required only for the PC-side Lobby injection** (`IZCIVSwitch.py --lobby` and `pc-install-trigger.py`). It is **not needed** for `IZCIVSwitch.py --no-lobby` / XSTRIG, and it is **not included** in the release.
 
 Place your own `prod.keys` here:
 
@@ -81,7 +81,7 @@ master_key_12
 
 `title.keys` is not required for the Lobby injector. Do not download keys from untrusted sources, and never commit them to a repository.
 
-If you do not have `prod.keys`, skip the Lobby path and use the Switch 1 NRO from the original kit to install `XSTRIG.Civ7Save`; after that, `run-fs.py --no-lobby` needs no keys.
+If you do not have `prod.keys`, skip the Lobby path and use the Switch 1 NRO from the original kit to install `XSTRIG.Civ7Save`; after that, `IZCIVSwitch.py --no-lobby` needs no keys.
 
 ### 3. Restore raw-socket capabilities
 
@@ -111,15 +111,15 @@ The full archive is **Linux x86_64** and its bundled Python runtime is built for
 ### 4. Verify the installation
 
 ```bash
-python3 -m py_compile run-fs.py pc-install-trigger.py izlauncher/install.py
+python3 -m py_compile IZCIVSwitch.py pc-install-trigger.py izlauncher/install.py
 python3 pc-install-trigger.py --check
 ```
 
 Expected:
 
 ```
-panel : .../civswitch-fs-kit-0.1.0/panel
-kit   : .../civswitch-fs-kit-0.1.0/kit
+panel : .../IZCIVSwitch-0.1.0/panel
+kit   : .../IZCIVSwitch-0.1.0/kit
 radio : phyN
 [ok] LDN environment is ready
 ```
@@ -133,8 +133,8 @@ On S2: **Civ7 → MULTIPLAYER → WIRELESS → CREATE GAME → HOST LOBBY**. Kee
 On the PC:
 
 ```bash
-cd civswitch-fs-kit-0.1.0
-python3 run-fs.py --lobby --yes
+cd IZCIVSwitch-0.1.0
+python3 IZCIVSwitch.py --lobby --yes
 ```
 
 Success:
@@ -152,8 +152,8 @@ FS ENDPOINT IS LIVE
 
 | Path | Platform | Requirements |
 |---|---|---|
-| PC Lobby injection (`run-fs.py --lobby`, `pc-install-trigger.py`) | **Linux x86_64** | bundled `panel/`, Wi-Fi radio, Node.js 20+, Python 3.10+, your own `prod.keys` |
-| Engine + bridge (`run-fs.py --no-lobby`) | Windows, macOS, Linux | Node.js 20+, Python 3.10+; loader already armed |
+| PC Lobby injection (`IZCIVSwitch.py --lobby`, `pc-install-trigger.py`) | **Linux x86_64** | bundled `panel/`, Wi-Fi radio, Node.js 20+, Python 3.10+, your own `prod.keys` |
+| Engine + bridge (`IZCIVSwitch.py --no-lobby`) | Windows, macOS, Linux | Node.js 20+, Python 3.10+; loader already armed |
 | XSTRIG install via Switch 1 | original kit | `switch1/civswitch-ldn-nx.nro` from the upstream kit (not included here) |
 | IZlauncher 0.27 menu | Civ7 1.0.0 + Switch 2 | optional; installed into `save:/` |
 
@@ -175,7 +175,7 @@ The PC Lobby injection uses the existing `CivSwitchLDN` implementation: it tempo
 2. On the PC:
 
 ```bash
-python3 run-fs.py --lobby --yes
+python3 IZCIVSwitch.py --lobby --yes
 ```
 
 3. The script injects `core.js`, waits for the loader on `:9026`, starts `node kit/port/engine/run.cjs --rpc <PC_IP>`, and sends a temporary copy of `kit/port/civ_bridge.js` with `PC_IP` set.
@@ -184,7 +184,7 @@ python3 run-fs.py --lobby --yes
 
 ### If the console IP changes
 
-The console may get a new DHCP address (`.20` → `.190`). `run-fs.py` checks the panel state and the ARP table. The loader screen always shows the authoritative address:
+The console may get a new DHCP address (`.20` → `.190`). `IZCIVSwitch.py` checks the panel state and the ARP table. The loader screen always shows the authoritative address:
 
 ```
 Awaiting payload at <IP>:9026
@@ -193,7 +193,7 @@ Awaiting payload at <IP>:9026
 Force it if needed:
 
 ```bash
-python3 run-fs.py --lobby --yes --console-ip 10.42.0.190
+python3 IZCIVSwitch.py --lobby --yes --console-ip 10.42.0.190
 ```
 
 ### If the Wi-Fi radio changes
@@ -201,7 +201,7 @@ python3 run-fs.py --lobby --yes --console-ip 10.42.0.190
 USB adapters re-enumerate as `phyN`. If the stored radio is gone and exactly one is available, the script selects it automatically. With several radios:
 
 ```bash
-python3 run-fs.py --lobby --yes --phy phy27
+python3 IZCIVSwitch.py --lobby --yes --phy phy27
 ```
 
 ---
@@ -238,7 +238,7 @@ Other saves are not deleted. The Switch 1 NRO's `ZR` is the path that wipes sing
 4. PC:
 
 ```bash
-python3 run-fs.py --no-lobby
+python3 IZCIVSwitch.py --no-lobby
 ```
 
 On failure: hard power-cycle, `Load Game → XSTRIG`, repeat. The kit reports roughly 30% success per boot; 3–4 boots are normal.
@@ -259,7 +259,7 @@ After `INSTALL DONE`:
 1. Reboot S2.
 2. Civ7 → `Load Game` → `IZ2S.Civ7Save` → menu.
 3. Double-press **R3** (right stick) to start the embedded loader.
-4. PC: `python3 run-fs.py --no-lobby`.
+4. PC: `python3 IZCIVSwitch.py --no-lobby`.
 
 Rollback:
 
@@ -272,7 +272,7 @@ python3 izlauncher/install.py --ip <S2-IP> \
 
 ## Observing and stopping
 
-While `run-fs.py` is alive:
+While `IZCIVSwitch.py` is alive:
 
 ```bash
 node kit/port/engine/rpc.cjs <run-folder> status
@@ -282,7 +282,7 @@ The bridge is up during `2/4`, so `status` can answer before FS is fully acquire
 Inspect a run without starting a new engine:
 
 ```bash
-python3 run-fs.py --inspect kit/port/engine/runs/<run-folder>
+python3 IZCIVSwitch.py --inspect kit/port/engine/runs/<run-folder>
 ```
 
 Monitor prefixes:

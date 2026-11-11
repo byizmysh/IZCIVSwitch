@@ -1,4 +1,4 @@
-# CivSwitch FS Kit — IZlauncher Edition (RU)
+# IZCIVSwitch — IZlauncher Edition (RU)
 
 Краткая русская инструкция. Полная английская версия: [`README.md`](README.md).
 
@@ -13,8 +13,8 @@
 внутри архива.
 
 ```
-civswitch-fs-kit-0.1.0/
-├── run-fs.py
+IZCIVSwitch-0.1.0/
+├── IZCIVSwitch.py
 ├── pc-install-trigger.py
 ├── kit/
 ├── panel/
@@ -25,7 +25,7 @@ civswitch-fs-kit-0.1.0/
 ### 2. Положить `prod.keys`
 
 `prod.keys` **не входит** в релиз. Он нужен только для Lobby-инъекции
-(`run-fs.py --lobby` и `pc-install-trigger.py`).
+(`IZCIVSwitch.py --lobby` и `pc-install-trigger.py`).
 
 Положить свой дамп ровно сюда:
 
@@ -51,7 +51,7 @@ master_key_12
 Никогда не коммитить и не публиковать.
 
 Если ключей нет — использовать Switch 1 NRO из оригинального kit для установки
-`XSTRIG.Civ7Save`, затем `run-fs.py --no-lobby` (ключи не нужны).
+`XSTRIG.Civ7Save`, затем `IZCIVSwitch.py --no-lobby` (ключи не нужны).
 
 ### 3. Вернуть capabilities
 
@@ -88,7 +88,7 @@ S2: Civ7 → `MULTIPLAYER > WIRELESS > CREATE GAME > HOST LOBBY`.
 ПК:
 
 ```bash
-python3 run-fs.py --lobby --yes
+python3 IZCIVSwitch.py --lobby --yes
 ```
 
 Успех:
@@ -113,7 +113,7 @@ python3 pc-install-trigger.py --yes
 1. питание 12 секунд;
 2. Civ7 → `Load Game` → `XSTRIG.Civ7Save`;
 3. дождаться `Awaiting payload at <IP>:9026`;
-4. `python3 run-fs.py --no-lobby`.
+4. `python3 IZCIVSwitch.py --no-lobby`.
 
 ## Опционально: меню 0.27
 
@@ -122,7 +122,7 @@ python3 izlauncher/install.py --ip <S2-IP>
 ```
 
 После `INSTALL DONE`: reboot → `Load Game` → `IZ2S.Civ7Save` → меню →
-дважды **R3** → `python3 run-fs.py --no-lobby`.
+дважды **R3** → `python3 IZCIVSwitch.py --no-lobby`.
 
 ## Диагностика
 
