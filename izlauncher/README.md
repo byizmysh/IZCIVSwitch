@@ -1,67 +1,71 @@
-# IZlauncher 0.27 FS для civswitch-kit
+# IZlauncher 0.27 (Civ7) for IZCIVSwitch
 
-Отдельный аддон, который ставит лаунчер `izlauncher-civ7-027-fs-20261111`
-через тот же транспорт и те же fs-примитивы, что использует
-`civswitch-kit/save-tools/restore_save.py`.
+Optional menu package for the CivSwitch / ns2jb chain. It installs a
+`Load Game` entry and an immutable menu capsule into the game's `save:`
+storage. The menu includes the stock Remote JS Loader, started with a
+controller gesture.
 
-Никакого Node-панельного окружения, `runtime/client.cjs` и LDN-инъекции здесь
-нет: скрипт общается с Remote JS Loader на `:9026` обычным TCP, как остальные
-инструменты набора.
+This package is **not required for FS**. The verified FS run used the Lobby
+path; the launcher is an optional UI entry.
 
-## Состав
+## Contents
 
 ```
 izlauncher/
-├── install.py          главный скрипт (установка / проверка / откат)
-├── install.ps1         тонкая обёртка для Windows
+├── install.py          installer / checker / rollback
+├── install.sh          shell wrapper
+├── install.ps1         PowerShell wrapper
 ├── package/
-│   ├── IZlauncher-027-FS.Civ7Save      триггер-сохранение, 1 212 487 байт
-│   ├── menu-capsule.bin                меню + встроенный Remote JS Loader, 336 819 байт
-│   ├── boot.js / capsule-source.js     исходники (для аудита)
+│   ├── IZlauncher-027-FS.Civ7Save   trigger save, 1 212 487 bytes
+│   ├── menu-capsule.bin             menu + embedded loader, 336 819 bytes
+│   ├── boot.js / capsule-source.js  source for audit
 │   ├── pad-normalize.comp.spv
-│   └── manifest.json                   размеры и SHA-256 (пути относительные)
-└── receipts/<uuid>/receipt.json        создаётся при установке
+│   └── manifest.json                sizes and SHA-256 (relative paths)
+└── receipts/<uuid>/receipt.json     created on install
 ```
 
-`package/` — байт-в-байт копия из `output/izlauncher-civ7-027-fs-20261111/package`.
-В манифесте только пути сделаны относительными, хэши не менялись.
+`package/` is the build from `izlauncher-civ7-027-fs-20261111`; only the
+manifest paths are relative, the hashes are unchanged.
 
-## Что делает установка
+## What installation does
 
-1. Проверяет локальные файлы по `manifest.json`.
-2. Заливает меню в `save:/IZ2S/launcher022/menu-<hash>.bin`:
-   staging → полный SHA-256 **на консоли** → копия в целевой путь → `Commit("save")`.
-3. Читает и сохраняет предыдущий триггер в
-   `save:/IZ2SOffline/<uuid>/previous.bin` (плюс хэш в receipt).
-4. Заливает триггер в `save:/saves/Single/IZ2S.Civ7Save`:
-   staging → SHA-256 на консоли → копия в целевой путь → `Commit("save")`.
-5. Пишет `receipts/<uuid>/receipt.json`.
+1. Validates the local files against `manifest.json`.
+2. Uploads the menu capsule to `save:/IZ2S/launcher022/menu-<hash>.bin`:
+   staging → full SHA-256 **on the console** → copy to the final path →
+   `Commit("save")`.
+3. Reads and saves the previous trigger to
+   `save:/IZ2SOffline/<uuid>/previous.bin`.
+4. Uploads the trigger to `save:/saves/Single/IZ2S.Civ7Save` using the same
+   staged/verified/publish sequence.
+5. Writes `receipts/<uuid>/receipt.json`.
 
-После этого ПК для запуска меню не нужен: оно читает ресурсы из `save:` самого
-игры. Схема взята из стабильной 0.22, подтверждённой на железе; в 0.27 добавлен
-только встроенный loader, который запускается жестом R3.
+After installation the menu runs offline from `save:`; no PC transport is
+needed. This is the same scheme as the hardware-verified 0.22 build, with the
+embedded loader added in 0.27.
 
-## Запуск loader из меню
+## Start the loader from the menu
 
-В 0.27 внутрь капсулы встроен штатный CivSwitch Remote JS Loader. Он не
-стартует при загрузке меню: в меню нужно **дважды нажать R3** (правый стик).
-Меню останавливается, на экране остаётся последний кадр, а на `:9026`
-поднимается обычный loader. Дальше ПК работает штатно:
+The stock CivSwitch Remote JS Loader is embedded in the 0.27 capsule but does
+not start at boot. In the menu, **double-press R3** (right stick). The menu
+loop stops, the last frame stays on screen, and the loader listens on `:9026`.
+
+Then on the PC:
 
 ```bash
-python3 ../IZCIVSwitch.py --no-lobby        # bridge + run.cjs --rpc
+python3 ../IZCIVSwitch.py --no-lobby
 ```
 
-## Порядок работы
+## Install
 
-1. Поднять loader штатным путём набора:
-   S2 → Civ7 → `Load Game` → `XSTRIG.Civ7Save` → на экране
-   `Awaiting payload at <IP>:9026`.
-2. На ПК:
+1. Arm the Remote JS Loader first:
+   - Lobby path: `IZCIVSwitch.py --lobby --inject-only`, or
+   - the kit's `XSTRIG.Civ7Save` row.
+2. Wait for `Awaiting payload at <IP>:9026`.
+3. On the PC:
 
 ```bash
-python install.py --ip <S2-IP> --check      # проверка пакета и связи
-python install.py --ip <S2-IP>              # установка
+python install.py --ip <S2-IP> --check
+python install.py --ip <S2-IP>
 ```
 
 Windows:
@@ -70,66 +74,62 @@ Windows:
 powershell -NoProfile -ExecutionPolicy Bypass -File .\install.ps1 -ip <S2-IP>
 ```
 
-3. Дождаться `INSTALL DONE`, полностью закрыть Civ7 (HOME/X), запустить снова,
-   открыть `Load Game` и выбрать строку `IZ2S.Civ7Save`.
+4. Wait for `INSTALL DONE`, close Civ7 completely (HOME/X), start it again,
+   open `Load Game`, and select `IZ2S.Civ7Save`.
 
-## Откат
+## Options
 
-Установка сохраняет предыдущий триггер на консоли и пишет receipt:
+| Option | Meaning |
+|---|---|
+| `--check` | validate the package; with `--ip`, also probe the loader |
+| `--dry-run` | print the plan without writing |
+| `--replace-kit-trigger` | write to `XSTRIG.Civ7Save` instead of `IZ2S.Civ7Save` |
+| `--name NAME` | another file name under `save:/saves/Single/` |
+| `--no-capsule` | do not touch the menu; update only the trigger |
+| `--pull-backup` | also pull a copy of the previous trigger to the PC (slow, 512-byte reads) |
+| `--restore RECEIPT` | roll back using a receipt |
+| `--kit DIR` | path to `civswitch-kit` (default: `../kit`) |
+
+## Rollback
+
+The installer keeps the previous trigger on the console and writes a receipt:
 
 ```bash
 python install.py --ip <S2-IP> --restore receipts/<uuid>/receipt.json
 ```
 
-Скрипт сверит SHA-256 резервной копии, скопирует её обратно в исходный путь
-и сделает `Commit("save")`. Если предыдущего триггера не было (первая
-установка), откатываться некуда — receipt это честно показывает.
+The script verifies the backup SHA-256, copies it back to the original path,
+and commits the save. If there was no previous trigger (first install), the
+receipt says so.
 
-## Опции
+## Compatibility with the kit
 
-| Опция | Назначение |
-|---|---|
-| `--check` | проверить пакет; с `--ip` ещё и доступность loader |
-| `--dry-run` | показать план, ничего не записывая |
-| `--replace-kit-trigger` | писать в `XSTRIG.Civ7Save` вместо `IZ2S.Civ7Save` |
-| `--name NAME` | другое имя файла в `save:/saves/Single/` |
-| `--no-capsule` | не трогать меню (обновить только триггер) |
-| `--pull-backup` | медленно вытянуть копию триггера ещё и на ПК (по 512 байт) |
-| `--restore RECEIPT` | откат по receipt |
-| `--kit DIR` | путь к `civswitch-kit` (по умолчанию `../kit`) |
+- The default trigger is a separate `IZ2S.Civ7Save`, so a kit restore of
+  `XSTRIG.Civ7Save` does not overwrite it. Both rows appear in `Load Game`.
+- `--replace-kit-trigger` writes `XSTRIG.Civ7Save`; a kit restore without
+  `-SkipRestore` will overwrite the launcher.
+- `install.py` uses the fs offsets documented in
+  `kit/docs/SAVE-BACKUP.md` and warns if they do not match.
 
-## Совместимость с циклом набора
+## Verification
 
-- По умолчанию триггер ставится отдельным файлом `IZ2S.Civ7Save`, поэтому
-  `run-p4-once.ps1`, который перезаписывает `XSTRIG.Civ7Save`, его не задевает.
-  В Load Game будут видны обе строки.
-- Если нужен ровно один триггер, ставьте с `--replace-kit-trigger`. Но тогда
-  каждый `run-p4-once.ps1` без `-SkipRestore` будет возвращать старый
-  `XSTRIG.Civ7Save` и затирать лаунчер.
-- `SAVE-BACKUP.md` набора перечисляет ровно те fs-смещения, которые использует
-  `install.py`; при `--check` скрипт сверяет их с документацией и предупреждает
-  при расхождении.
+- Local SHA-256 hashes of the trigger, menu and `boot.js` match the manifest.
+- Install and rollback were exercised end-to-end against a mock loader that
+  implements the kit's `sdk_base +` fs offsets and the `send_js.py` TCP
+  protocol: files on the mock were byte-identical, and rollback restored the
+  previous trigger with a matching SHA-256.
+- The installer was run on hardware with the 0.22 package (`INSTALL DONE`,
+  menu loaded). The 0.27 package was verified through the mock install path;
+  the double-R3 loader gesture has not yet been hardware-tested.
 
-## Проверка
+## Limitations
 
-- Локальные SHA-256 триггера, меню и `boot.js` совпадают с манифестом.
-- Установка и откат прогнаны end-to-end на mock-loader, который реализует
-  `sdk_base +` смещения из `kit/docs/SAVE-BACKUP.md` и настоящий TCP-протокол
-  `send_js.py`: файлы на «консоли» получились байт-в-байт, откат вернул
-  исходный триггер с совпадением SHA-256.
-- Установщик уже прогнан на реальной консоли с пакетом 0.22 (INSTALL DONE,
-  меню загрузилось). Пакет 0.27 проверен на mock-loader: триггер и капсула
-  записываются байт-в-байт, откат возвращает предыдущий триггер.
-- Запуск loader'а двойным R3 из меню 0.27 на железе ещё не проверялся.
-
-## Ограничения
-
-- `install.py` требует уже поднятый Remote JS Loader. Поднять его из Lobby
-  можно соседним `../IZCIVSwitch.py --lobby --inject-only`; после установки 0.27
-  loader также запускается из меню двойным R3.
-- `Commit("save")` выполняется после каждой публикации; если прервать процесс
-  между staging и публикацией, на консоли останется staged-файл. Скрипт при
-  повторном запуске в том же процессе игры откажется продолжать и попросит
-  перезапустить Civ7. Это сделано намеренно, чтобы не повторять нативные вызовы.
-- `--pull-backup` очень медленный (по 512 байт на соединение) и нужен только
-  для офлайн-архива; рабочий откат использует копию на консоли.
+- `install.py` requires an already armed loader. Use
+  `../IZCIVSwitch.py --lobby --inject-only`, the `XSTRIG` row, or the Switch 1
+  NRO to arm it.
+- `Commit("save")` runs after each publication. If the process is interrupted
+  between staging and publication, a staged file remains on the console. A
+  second run in the same game process refuses to continue and asks you to
+  restart Civ7. This is intentional: native calls are never replayed.
+- `--pull-backup` is slow and optional; working rollback uses the copy on the
+  console.
