@@ -1,0 +1,20 @@
+# ---- Python ----
+__pycache__/
+*.py[cod]
+
+# ---- Node ----
+node_modules/
+
+# ---- 运行产物 / 固件 dump（体积大且含本机数据，绝不入库）----
+port/engine/dumps/
+*.log
+*.tmp
+
+# ---- 本机个人数据 ----
+# 存档备份（跑 dump_save_tree.py 产生的个人存档）
+save-tools/backups/
+
+# ---- 系统垃圾文件 ----
+.DS_Store
+Thumbs.db
+desktop.ini

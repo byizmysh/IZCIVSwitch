@@ -1,0 +1,154 @@
+{
+  "version": "0.27.0-civ7-fs",
+  "save": "IZlauncher-027-FS.Civ7Save",
+  "saveBytes": 1212487,
+  "saveSha256": "11a773d7107590d6c89ab8731e8a926f1cf03c057b7580994893c73de0cef08e",
+  "source": "boot.js",
+  "sourceBytes": 74467,
+  "templateBytes": 1159730,
+  "sourceSha256": "a5cb75ba1d9cd723ede27dc6676875ce2d9cf5267597961ac4a7ce85cba537bd",
+  "capsule": {
+    "file": "menu-capsule.bin",
+    "target": "save:/IZ2S/launcher022/menu-a5f82d2c43ddf180cf332fa7.bin",
+    "bytes": 336819,
+    "sha256": "a5f82d2c43ddf180cf332fa7b219b0a8e9607bc2285cbda89466c28ab4480abd",
+    "sourceBytes": 500299
+  },
+  "apps": [],
+  "bookReaderIncluded": false,
+  "remoteLoader": {
+    "included": true,
+    "gesture": "double-r3",
+    "port": 9026,
+    "sourceBytes": 9909
+  },
+  "assets": {
+    "/iz2s/bundle/shell-vertex.bin": {
+      "bytes": 852,
+      "storedBytes": 851,
+      "sha256": "4056325aaa646b0d5992d96c4862211cdf13830058bf45faa0a44be10a09ceff"
+    },
+    "/iz2s/bundle/shell-fragment.bin": {
+      "bytes": 368920,
+      "storedBytes": 368919,
+      "sha256": "5a5c2b79eea7a4880cd2bdff5575069c1a9c05bae798b0b68f713fa5acb9a681"
+    },
+    "/iz2s/bundle/shell-compute.bin": {
+      "bytes": 147820,
+      "storedBytes": 147819,
+      "sha256": "b892d471c64869cd8d5a3bfa8445a3d7980fb52d81a189bc9d18f47c45574f31"
+    },
+    "/iz2s/bundle/shell-state.bin": {
+      "bytes": 1024,
+      "storedBytes": 0,
+      "sha256": "5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef"
+    },
+    "/iz2s/bundle/shell-data.bin": {
+      "bytes": 4,
+      "storedBytes": 0,
+      "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+    },
+    "/iz2s/bundle/shell.json": {
+      "bytes": 740,
+      "storedBytes": 740,
+      "sha256": "b1db36c40054ff6fe6c31385942bc46d78304300d4d7c81f946cb5c0d302f89e"
+    },
+    "/iz2s/embedded/font.bin": {
+      "bytes": 2097152,
+      "storedBytes": 33869,
+      "sha256": "d47aa30f27eec5c3e5d11f51bf906a681d90fc30d8c7ac12f536ebb3b17dac8e"
+    },
+    "/iz2s/bundle/type.bin": {
+      "bytes": 376832,
+      "storedBytes": 376290,
+      "sha256": "f50439bbd8cb4efc2f26c7cbfed874f4002bb10fcd618d6af63332aa46bf8e22"
+    },
+    "/iz2s/embedded/catalog.bin": {
+      "bytes": 0,
+      "storedBytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "/iz2s/engines/CivSwitch/launcher/shaders/launcher.vert.spv": {
+      "bytes": 852,
+      "storedBytes": 851,
+      "sha256": "4056325aaa646b0d5992d96c4862211cdf13830058bf45faa0a44be10a09ceff"
+    },
+    "/iz2s/engines/CivSwitch/launcher/shaders/launcher.frag.spv": {
+      "bytes": 106396,
+      "storedBytes": 106395,
+      "sha256": "831d1263817ed45929cb18a8c4c4c9404f2b3f2a226a4106c1a9b257f50b2ef3"
+    },
+    "/iz2s/engines/CivSwitch/launcher/shaders/launcher.comp.spv": {
+      "bytes": 237652,
+      "storedBytes": 237651,
+      "sha256": "ef2dab04129add436359e0e3cb966d991e6613f11d2eac049e18a98eaef9c947"
+    },
+    "/iz2s/bundle/pad.spv": {
+      "bytes": 7660,
+      "storedBytes": 7659,
+      "sha256": "c1479fe5d5385053d0c5075cb50e72af796fd625621fa13e9ddc67a2987e5ce6"
+    }
+  },
+  "sourcePins": {
+    "engines/CivSwitch/runtime/display.cjs": {
+      "bytes": 19467,
+      "sha256": "a7c4720a4ad1986225ccea96d565d305ec306acc2af56e2fd498225297f32cf8"
+    },
+    "core/services/journal.cjs": {
+      "bytes": 795,
+      "sha256": "8fd50c9172700074ee59f8f6f6f37d4585ee5725e1c568c13166065a4446533a"
+    },
+    "core/services/vulkan-composition.cjs": {
+      "bytes": 1879,
+      "sha256": "aa912ce0f39b2aec40abea2a898a0578a361df994bc2b8b3dafb85212cff9917"
+    },
+    "core/console/abi/sdk-functions.json": {
+      "bytes": 1718,
+      "sha256": "53364e1a8596323b0e4d106ed25c67dc927d5ae4ed068be5c07c3eb3e3589d0e"
+    },
+    "core/services/inspect.cjs": {
+      "bytes": 5070,
+      "sha256": "5341d000b9761c9bc1a4f80c7738e26e9942e0fc55c5a3c0c794e8ddc26ee4ce"
+    },
+    "engines/CivSwitch/runtime/driver.cjs": {
+      "bytes": 2044,
+      "sha256": "5611a8549f2e3c3abb16ef1dabac4a9f8882336ea02e27b71d71733871adb7d2"
+    },
+    "engines/CivSwitch/launcher/prepare.cjs": {
+      "bytes": 17335,
+      "sha256": "ccbc8dc2443bce738a53bd7a8f7b25667a56599091aef25d266aea7a9fa60fec"
+    },
+    "engines/CivSwitch/runtime/native-six.cjs": {
+      "bytes": 342,
+      "sha256": "2ea788bd6f146dd0e71cfd47c4a60abc2e8159b74f3ebfb284923078bf5925d6"
+    },
+    "engines/CivSwitch/launcher/shader-staging.cjs": {
+      "bytes": 814,
+      "sha256": "0d75dd9c54c4558fe2a7be1f94f98106891ebb75c2e56794f224c1cbe64b73e3"
+    },
+    "engines/CivSwitch/runtime/rpc.cjs": {
+      "bytes": 5525,
+      "sha256": "f6fa74e3358bdc2116ea8de386d2b16afc6b6313978f5148fd1f6dadd439381d"
+    },
+    "engines/CivSwitch/runtime/storage.cjs": {
+      "bytes": 968,
+      "sha256": "a21e018236e6e481fa9ba39d0e911df1e53ef082190d80a4e6dac085a3961e8f"
+    },
+    "engines/CivSwitch/launcher/scene-state.cjs": {
+      "bytes": 417,
+      "sha256": "abc5512095107ebcfb43fd46d3bf5896ffadc5f75e312833fc1671c6eb384e4e"
+    },
+    "engines/CivSwitch/runtime/gpu-app.cjs": {
+      "bytes": 14200,
+      "sha256": "780965182b4e361c4686ccf72f3d0ff0057ff0ad0960db46abffdbc7b571a6da"
+    },
+    "core/services/gpu-presentation.cjs": {
+      "bytes": 988,
+      "sha256": "fb231747bb8b060407a187df84d2f91b6c96c23a3619970103d6f5a69fd76ce9"
+    }
+  },
+  "bootDelayMs": 1500,
+  "installed": false,
+  "coldLoadGameVerified": false,
+  "style": "actual SB4 0.22 shaders and type atlas"
+}

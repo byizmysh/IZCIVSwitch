@@ -1,0 +1,9 @@
+flowchart TD
+    S["XSTRIG.Civ7Save<br/>固化触发存档"] -->|每次开机 Load Game| A["Civ7 聊天框 XSS<br/>注入 JS payload"]
+    A --> B["Remote JS Loader<br/>TCP :9026"]
+    B --> C["ns2jb Stage 2 引擎<br/>Civ7 进程内 13 条原生线程"]
+    C --> D["fs sysmodule<br/>reserved-gap 竞态"]
+    D --> E["伪造缓存条目<br/>FS 任意读写"]
+    E --> F["retained 常驻端点"]
+    F --> G["RO payload"]
+    G --> H["固件 dump<br/>90/90 程序 · 222 MB"]

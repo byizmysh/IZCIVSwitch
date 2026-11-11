@@ -1,0 +1,14 @@
+{
+  "files": [
+    {
+      "path": "save:/saves/Single/XSTRIG.Civ7Save",
+      "stored_as": "XSTRIG.Civ7Save",
+      "bytes": 1195911,
+      "chunks": 2336,
+      "chunk_size": 512,
+      "sha256": "c53a04e4ce432727c0e24348be240051b846595103ed06865b34c16bba810e7c",
+      "magic": "CIV7",
+      "complete": true
+    }
+  ]
+}

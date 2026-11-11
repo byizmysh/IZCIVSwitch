@@ -1,0 +1,6 @@
+# Console keys, installed runtime, and machine-specific state
+/panel/data/
+
+# Python bytecode
+__pycache__/
+*.py[cod]
