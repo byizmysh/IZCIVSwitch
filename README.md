@@ -1,31 +1,16 @@
-# IZCIVSwitch — IZlauncher Edition
+# IZCIVSwitch
 
-**A PC-side launcher for the CivSwitch / ns2jb Stage 2 FS session on Nintendo Switch 2.** Inject the loader through the Civilization VII multiplayer lobby, run the original `civswitch-kit` engine and bridge, and keep the retained FS RPC endpoint alive while the process is open. Includes the optional **IZlauncher 0.27** menu with an embedded loader.
+IZCIVSwitch is a PC-side research toolkit for Nintendo Switch 2 and Civilization VII.
 
-**Standalone integration.** The `civswitch-kit` engine, bridge and save tools are used as published. This repository adds the PC-side runner, the Lobby installer and the launcher package. The kit is not patched.
+**PC compatibility.** The bundled Lobby runtime targets Linux x86_64.
 
-[Safety notice](DISCLAIMER.md) · [Release notes](RELEASE_NOTES.md)
+[Release notes](https://github.com/byizmysh/IZCIVSwitch/releases/tag/v0.1.0) · [Safety notice](DISCLAIMER.md)
 
-> **Use with caution.** This is research software for hardware you own. It writes under `save:/`, races the `fs` sysmodule and can leave the console wedged. A failed attempt can require a hard power-cycle (hold power for 12 seconds). Back up anything you care about first. No warranty; you are responsible for the operations you run.
-
-## Verified run
-
-On 2026-11-11 this exact chain completed on hardware:
-
-```
-4/4 verified
-FS execution verified. Original instructions restored and scratch cleaned up.
-26/26 pipeline stages complete
-retainedEndpoint: { ready: true }
-319 496 RPC exchanges
-```
-
-Run folder: `kit/port/engine/runs/switch2-nTDhp6`.
-See [`docs/VERIFIED-RUN.md`](docs/VERIFIED-RUN.md).
-
----
+> **Use with caution.** This research software can modify game save data and cause the console to freeze. Back up your saves before use. A freeze may require a full power cycle. Use the software only with hardware and content you are authorized to access. It comes without a warranty.
 
 ## Installation
+
+**Checksums.** For release archives, use the SHA-256 checksum file under **Assets** on the v0.1.0 release page. The [v0.1.0 source manifest](https://github.com/byizmysh/IZCIVSwitch/blob/v0.1.0/SHA256SUMS) covers the files in that Git tag.
 
 > **Read this section first.** The release archive does **not** contain `prod.keys`. You must supply your own console dump for the PC-side Lobby injection.
 
@@ -47,7 +32,7 @@ IZCIVSwitch-0.1.0/
 │   └── data/
 │       ├── runtime/civswitchldn/
 │       └── private/civswitchldn/   <-- prod.keys goes here
-├── izlauncher/                  # optional menu 0.27
+├── izlauncher/                  # optional menu
 ├── README.md
 ├── DISCLAIMER.md
 └── RELEASE_NOTES.md
@@ -150,12 +135,7 @@ FS ENDPOINT IS LIVE
 
 ## Compatibility
 
-| Path | Platform | Requirements |
-|---|---|---|
-| PC Lobby injection (`IZCIVSwitch.py --lobby`, `pc-install-trigger.py`) | **Linux x86_64** | bundled `panel/`, Wi-Fi radio, Node.js 20+, Python 3.10+, your own `prod.keys` |
-| Engine + bridge (`IZCIVSwitch.py --no-lobby`) | Windows, macOS, Linux | Node.js 20+, Python 3.10+; loader already armed |
-| XSTRIG install via Switch 1 | original kit | `switch1/civswitch-ldn-nx.nro` from the upstream kit (not included here) |
-| IZlauncher 0.27 menu | Civ7 1.0.0 + Switch 2 | optional; installed into `save:/` |
+**Linux only.** PC Lobby mode runs only on Linux. The bundled runtime targets x86_64.
 
 Console prerequisites:
 
@@ -170,17 +150,6 @@ The PC Lobby injection uses the existing `CivSwitchLDN` implementation: it tempo
 ---
 
 ## First connection
-
-1. Start Civ7 and enter `MULTIPLAYER > WIRELESS > CREATE GAME > HOST LOBBY`. The console must stay in the lobby.
-2. On the PC:
-
-```bash
-python3 IZCIVSwitch.py --lobby --yes
-```
-
-3. The script injects `core.js`, waits for the loader on `:9026`, starts `node kit/port/engine/run.cjs --rpc <PC_IP>`, and sends a temporary copy of `kit/port/civ_bridge.js` with `PC_IP` set.
-4. Wait for `4/4 verified` and `FS ENDPOINT IS LIVE`.
-5. Keep the process open while using FS. `Ctrl-C` releases and cleans up.
 
 ### If the console IP changes
 
@@ -245,10 +214,10 @@ On failure: hard power-cycle, `Load Game → XSTRIG`, repeat. The kit reports ro
 
 ---
 
-## Optional: IZlauncher 0.27 menu
+## Optional: IZlauncher menu
 
 `izlauncher/` installs a menu entry into `save:/saves/Single/IZ2S.Civ7Save`.
-This is not required for FS and was not used in the verified run above.
+The main FS session works without this optional menu.
 
 ```bash
 python3 izlauncher/install.py --ip <S2-IP>
@@ -305,7 +274,7 @@ Monitor prefixes:
 - Hold a live Stage 2 FS RPC endpoint on the console.
 - Use the kit's RPC tooling (`rpc.cjs`, low-level `call`/`read`/`write`/`query`).
 - Dump system CodeFS with `--dump-firmware` (needs ≥512 MiB free).
-- Install the optional IZlauncher 0.27 menu.
+- Install the optional IZlauncher menu.
 - Use XSTRIG + Load Game for a persistent entry without Lobby or Switch 1.
 
 This is not a graphical file manager. FS operations are exposed through the original kit's RPC/RO pipeline.
@@ -321,33 +290,27 @@ This is not a graphical file manager. FS operations are exposed through the orig
 | `radio phyN is absent` | Reconnect the USB Wi-Fi adapter; one radio → auto; several → `--phy`. |
 | `loader did not answer` | S2 is not in Host Lobby, or the IP changed; pass `--console-ip`. |
 | `Got unstable rw primitive` + `604:48` / `657:28` | Initial Civ7 JS exploit failed at the stable-primitive layer; no `:9026`. Hard reset and retry. |
-| `FS acquisition did not complete` | Probabilistic fs-race miss; hard reset, repeat. |
 | Stuck at `2/4`, `idle` grows | Wedge; hard power-cycle 12 s. |
 | `rpc.cjs status` → `ECONNREFUSED` | Engine stopped or bridge busy; use `--inspect`. |
 | `RUN SUMMARY verified: False` | Read the summary and `switch2/acquisition.log`. |
-| Release on non-Linux / other Python | Use the source package with your `iz2s-panel`, or the Switch 1 NRO; the bundled Lobby runtime is Linux x86_64 / Python 3.14. |
-
-The verified run took 669 s and succeeded on acquisition attempt 2. `--max-runtime`
-defaults to 900 s; `--max-runtime 0` allows the kit's 3 × 10-minute retry budget.
+| PC platform and bundled Python | PC Lobby mode requires Linux. The bundled runtime targets Linux x86_64 and uses Python 3.14. |
 
 ---
 
 ## Privacy and security
 
 - The scripts run locally and do not contact a cloud service.
-- `prod.keys` is console-specific and must never be committed or shared.
-- The release archive contains no keys, no `title.keys`, and no Switch 1 `.nro`.
-- Writes occur under `save:/` (trigger save, scratch, optional menu capsule).
-- The FS race can wedge the console; a hard power-cycle is expected.
-- Use only consoles and content you are authorized to access. No Nintendo branding or game assets are included.
+- Keep console-specific keys private. Never commit or share them. The release archives exclude console keys and the Switch 1 NRO.
+- The toolkit can write to game saves and create temporary data under `save:/`. See the [safety notice](DISCLAIMER.md) for the risks of running it.
+- The release includes no Nintendo branding or game assets.
 
 ## Credits and license
 
-- [civswitch-kit](https://gitee.com/mza1010/civswitch-kit) — GPL-2.0
-- `kurumuz/ns2jb` → `slapah/CivSwitch` → kit patches
-- Civ7 XSS / loader portions: Gezine (MIT), see `LICENSE-MIT-Gezine.txt`
-- IZlauncher package: CivSwitch GPL-2.0 + IZ2S license, bundled in
-  `izlauncher/package/`
-- This integration: GPL-2.0, see `LICENSE`
+- **civswitch-kit by mza1010.** [civswitch-kit](https://gitee.com/mza1010/civswitch-kit) provides the filesystem support used by IZCIVSwitch. The bundled kit retains its [GPL-2.0 license](kit/LICENSE) and [upstream notices](kit/NOTICE.md), which credit [kurumuz/ns2jb](https://gitlab.com/kurumuz/ns2jb) and the CivSwitch port by [slapah](https://github.com/slapah).
+- **CivSwitchLDN by ItsNerisma.** The PC Lobby mode uses [CivSwitchLDN](https://github.com/ItsNerisma/CivSwitchLDN) by ItsNerisma. The bundled application and ItsNerisma's original code are licensed under [GPL-3.0-only](panel/engines/CivSwitchLDN/LICENSE). Reused components retain the licenses documented in the [bundled third-party notices](panel/engines/CivSwitchLDN/THIRD_PARTY_NOTICES.md).
+- **IZCIVSwitch.** The original integration code is licensed under [GPL-2.0](LICENSE). Bundled projects retain their own licenses. [IZCIVSwitch repository](https://github.com/byizmysh/IZCIVSwitch)
+- **Gezine's CivSwitch.** The Civilization VII XSS and loader portions retain their [MIT license notice](LICENSE-MIT-Gezine.txt). [Gezine/CivSwitch repository](https://github.com/Gezine/CivSwitch)
+- **IZlauncher.** The bundled launcher comes from [IZ2S Platform](https://github.com/byizmysh/IZ2S-Platform). The package includes the [IZ2S GPL-2.0 license](izlauncher/package/LICENSE-IZ2S.txt) and [Gezine's MIT notice](izlauncher/package/LICENSE-CivSwitch.txt).
+- **Related project.** [CivHomebrew](https://github.com/XITRIX/CivHomebrew) by XITRIX.
 
-See [`NOTICE.md`](NOTICE.md) for details.
+See [NOTICE.md](NOTICE.md) for detailed attribution.
